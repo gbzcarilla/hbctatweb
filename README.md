@@ -55,4 +55,10 @@ $ git merge feat/new-feature-branch
 # push the updated main branch
 $ git push origin main
 
+# remove a local branch
+$ git branch -d feat/old-feature-branch
+# force delete a local branch with unmerged changes
+$ git branch -D feat/branch-with-unmerged-changes
+
+
 ```
