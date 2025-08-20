@@ -22,7 +22,7 @@ $ bun add @hono/zod-validator
 
 ``` sh
 
-# git-related
+# git-related setup
 $ git init
 $ vi .gitignore
 ...
@@ -41,6 +41,18 @@ $ git pull origin main
 # ... resolve conflicts here...
 $ git push --set-upstream origin main
 
-
+# create the feature branch
+$ git checkout -b feat/new-feature-branch
+# do the feature changes
+# switch to main branch
+$ git checkout main
+# pull latest changes from remote main branch
+$ git pull origin main
+# probably do a rebase here if there are changes from the remote main
+...
+# merge feature branch into main
+$ git merge feat/new-feature-branch
+# push the updated main branch
+$ git push origin main
 
 ```
