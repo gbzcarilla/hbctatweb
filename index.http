@@ -1,0 +1,45 @@
+
+GET http://localhost:3000 HTTP/1.1
+
+
+###
+GET http://localhost:3000/test HTTP/1.1
+
+###
+GET http://localhost:3000/tester HTTP/1.1
+
+
+### CRUD - Expenses - GET ALL
+GET http://localhost:3000/api/expenses HTTP/1.1
+
+
+### CRUD - Expenses - GET ONE (existing)
+GET http://localhost:3000/api/expenses/2 HTTP/1.1
+
+
+### CRUD - Expenses - GET ONE (non-existing)
+GET http://localhost:3000/api/expenses/2852 HTTP/1.1
+
+
+### CRUD - Expenses - CREATE
+POST http://localhost:3000/api/expenses HTTP/1.1
+content-type: application/json
+
+{
+    "title": "New Expense",
+    "amount": 5555
+}
+
+
+### CRUD - Expenses - UPDATE
+PUT http://localhost:3000/api/expenses/7 HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Updated Gym Membership",
+    "amount": 4678
+}
+
+
+### CRUD - Expenses - DELETE
+DELETE http://localhost:3000/api/expenses/7 HTTP/1.1

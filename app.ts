@@ -6,6 +6,9 @@ const app = new Hono()
 
 // Define your routes here
 app.use("*", logger())
+app.get("/", c => {
+  return c.json({ "message": "Welcome to the API!" })
+})
 app.get("/test", c => {
   return c.json({ "message": "tester" })
 })
