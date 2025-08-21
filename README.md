@@ -97,3 +97,52 @@ $ bunx --bun shadcn@latest add checkbox input toggle button label switch select 
 $ bun add @tanstack/react-router @tanstack/query @tanstack/react-table
 #$ npm install @tanstack/router @tanstack/react-query @tanstack/react-table
 ```
+
+
+npm install tailwindcss @tailwindcss/cli
+
+vi src/input.css
+@import "tailwindcss";
+
+npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css
+
+vi src/index.html
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="./output.css" rel="stylesheet">
+</head>
+<body>
+	<h1 class="text-3xl font-bold">
+		tester
+	</h1>
+</body>
+</html>
+
+
+
+
+bun add @tanstack/react-router @tanstack/react-router-devtools
+bun add -D @tanstack/router-plugin
+
+pnpm add @tanstack/react-router @tanstack/react-router-devtools
+pnpm add -D @tanstack/router-plugin
+
+
+vi vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { tanstackRouter} from '@tanstack/router-plugin/vite'
+
+export default defineConfig({
+	plugins: [
+		tanstackRouter({
+			target: 'react',
+			autoCodeSplitting: true,
+		}),
+		react(),
+		// ...,
+	],
+})
