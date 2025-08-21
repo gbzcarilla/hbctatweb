@@ -84,14 +84,63 @@ $ vi frontend/package.json
 ``` sh
 $ bun run dev
 # Install tailwindcss
-$ npm install tailwindcss @tailwindcss/vite
+#$ npm install tailwindcss @tailwindcss/vite
+$ bun add tailwindcss @tailwindcss/vite
 # shadcn
 # ... lookup up 3 config file changes
 $ npm install -D @types/node
-$ npx shadcn@latest init
-#$ bunx --bun shadcn@latest init
+```
+``` js
+// tsconfig.json
+"compilerOptions": {
+	"baseUrl": ".",
+	"paths": {
+		"@/*": ["./src/*"]
+	}
+}
+```
+``` js
+// tsconfig.app.json
+"compilerOptions": {
+	// ...
+	"baseUrl": ".",
+	"paths": {
+		"@/*": ["./src/*"]
+	}
+}
+```
+``` js
+// vite.config.ts
+import path from "path"
+import tailwindcss from "@tailwindcss/vite"
+import react from "@vitejs/plugin-react"
+import { defineConfig } from "vite"
+ 
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+})
+```
+
+
+
+``` sh
+#
+
+# Setup Shadcn-ui
+#$ npx shadcn@latest init
+$ bunx --bun shadcn@latest init
 # add shadcn components
 $ bunx --bun shadcn@latest add checkbox input toggle button label switch select radio-group alert dialog tooltip card popover sonner form table calendar
+
+
+
+
 
 # tanstack
 $ bun add @tanstack/react-router @tanstack/query @tanstack/react-table
