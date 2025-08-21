@@ -1,11 +1,16 @@
 import { Hono } from 'hono'
+import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
 
-type Expense = {
-  id: number,
-  title: string,
-  amount: number
-}
+const expenseSchema = z.object({
+  id: z.number().int().positive().min(1),
+  title: z.string().min(2).max(100),
+  amount: z.number().int().positive().min(0)
+})
+
+type Expense = z.infer<typeof expenseSchema>
+
+const createExpenseSchema = expenseSchema.omit({id: true})
 
 const fakeExpenses: Expense[] = [
   { id: 1, title: 'Groceries', amount: 50 },
@@ -20,33 +25,31 @@ const fakeExpenses: Expense[] = [
   { id: 10, title: 'Medical', amount: 95 },
 ]
 
-const createExpenseSchema = z.object({
-  title: z.string().min(2).max(100),
-  amount: z.number().int().positive().min(0)
-})
+
 
 export const expensesRoute = new Hono()
   .get("/", c => {
     return c.json({ "expenses": fakeExpenses })
   })
-  .get("/:id", (c) => {
-    const id = Number(c.req.param("id"))
+  .get("/:id{[0-9]+}", (c) => {
+    const id = Number.parseInt(c.req.param("id"))
     const expense = fakeExpenses.find(exp => exp.id === id)
     if (!expense) {
       return c.json({ message: "Expense not found", ok: false }, 404)
     }
     return c.json(expense)
   })
-  .post("/", async (c) => {
-    const data = await c.req.json()
+  .post("/", zValidator("json", createExpenseSchema), async (c) => {
+    const data = await c.req.valid("json")
     const expense = createExpenseSchema.parse(data)
     console.log(`expense.title: ${expense.title}`)
     console.log(`expense.amount: ${expense.amount}`)
     fakeExpenses.push({...expense, id: fakeExpenses.length + 1})
+    c.status(201)
     return c.json(expense)
   })
-  .put("/:id", async (c) => {
-    const id = Number(c.req.param("id"))
+  .put("/:id{[0-9]+}", async (c) => {
+    const id = Number.parseInt(c.req.param("id"))
     const expense = fakeExpenses.find(exp => exp.id === id)
     if (!expense) {
       return c.json({ message: "Expense not found", ok: false }, 404)
@@ -57,14 +60,14 @@ export const expensesRoute = new Hono()
     console.log(`Expenses - Update: ${JSON.stringify(fakeExpenses[id])}`)
     return c.json(fakeExpenses[id - 1])
   })
-  .delete("/:id", (c) => {
-    const id = Number(c.req.param("id"))
+  .delete("/:id{[0-9]+}", (c) => {
+    const id = Number.parseInt(c.req.param("id"))
     const expenseIndex = fakeExpenses.findIndex(exp => exp.id === id)
     if (expenseIndex === -1) {
       console.log(`Expenses - Delete: Expense with ID: ${id} not Found!`)
       return c.json({ message: "Expense not found", ok: false }, 404)
     }
-    fakeExpenses.splice(expenseIndex, 1)
+    const deletedExpense = fakeExpenses.splice(expenseIndex, 1)[0]
     console.log(`Expenses - Delete: Expense with ID: ${id} DELETED!`)
-    return c.json({ message: "Expense deleted", ok: true })
+    return c.json({ data: deletedExpense, message: "Expense deleted", ok: true })
   })

@@ -17,6 +17,7 @@ $ bun install zod
 # 
 $ bun add @hono/zod-validator
 
+$ bun run dev
 
 ```
 
@@ -60,5 +61,29 @@ $ git branch -d feat/old-feature-branch
 # force delete a local branch with unmerged changes
 $ git branch -D feat/branch-with-unmerged-changes
 
+
+```
+
+
+``` sh
+# Create frontend
+$ bun create vite@latest
+# name it "frontend", choose React, Typescript...
+# 
+$ cd frontend
+$ bun install
+# create package script
+$ vi frontend/package.json
+```
+``` js
+"scripts":
+  "dev": "bunx --bun vite",
+  "build": "bunx --bun vite build",
+```
+
+``` sh
+$ bun run dev
+# Install tailwindcss
+$ npm install tailwindcss @tailwindcss/vite
 
 ```

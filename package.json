@@ -1,11 +1,11 @@
 {
   "name": "hbctatweb",
-  "module": "index.ts",
+  "module": "api/index.ts",
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=production bun index.ts",
-    "dev": "NODE_ENV=development bun --watch index.ts",
+    "start": "NODE_ENV=production bun api/index.ts",
+    "dev": "NODE_ENV=development bun --watch api/index.ts",
     "build": "bun build"
   },
   "devDependencies": {
@@ -15,6 +15,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@hono/zod-validator": "^0.7.2",
     "hono": "^4.9.2",
     "zod": "^4.0.17"
   }
