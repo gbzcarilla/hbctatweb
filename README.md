@@ -85,5 +85,15 @@ $ vi frontend/package.json
 $ bun run dev
 # Install tailwindcss
 $ npm install tailwindcss @tailwindcss/vite
+# shadcn
+# ... lookup up 3 config file changes
+$ npm install -D @types/node
+$ npx shadcn@latest init
+#$ bunx --bun shadcn@latest init
+# add shadcn components
+$ bunx --bun shadcn@latest add checkbox input toggle button label switch select radio-group alert dialog tooltip card popover sonner form table calendar
 
+# tanstack
+$ bun add @tanstack/react-router @tanstack/query @tanstack/react-table
+#$ npm install @tanstack/router @tanstack/react-query @tanstack/react-table
 ```

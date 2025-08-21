@@ -19,10 +19,14 @@ function App() {
       <h1 className="text-2xl font-bold">HBC Travel and Tours</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+          up
+        </button>
+        &nbsp;
+        <button onClick={() => setCount((count) => count - 1)}>
+          down
         </button>
         <p>
-          Go <code>tester</code> 
+          { count } 
         </p>
       </div>
       <p className="read-the-docs">
