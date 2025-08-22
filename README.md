@@ -83,13 +83,48 @@ $ vi frontend/package.json
 
 ``` sh
 $ bun run dev
-# Install tailwindcss
+```
+
+
+## TailwindCSS
+``` SH
 #$ npm install tailwindcss @tailwindcss/vite
 $ bun add tailwindcss @tailwindcss/vite
-# shadcn
-# ... lookup up 3 config file changes
-$ npm install -D @types/node
 ```
+
+``` js
+// vite.config.ts
+import path from "path"
+import react from "@vitejs/plugin-react"
+import tailwindcss from "@tailwindcss/vite"
+import { defineConfig } from "vite"
+ 
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+})
+```
+
+``` css
+/* src/input.css */
+@import "tailwindcss";
+```
+
+
+
+
+## Shadcn-UI
+``` sh
+#$ npx shadcn@latest init
+$ bunx --bun shadcn@latest init
+```
+
+### ... lookup up 3 config file changes
 ``` js
 // tsconfig.json
 "compilerOptions": {
@@ -109,11 +144,16 @@ $ npm install -D @types/node
 	}
 }
 ```
+
+## Update `vite.config.ts`
+``` sh
+$ npm install -D @types/node
+```
 ``` js
 // vite.config.ts
 import path from "path"
-import tailwindcss from "@tailwindcss/vite"
 import react from "@vitejs/plugin-react"
+import tailwindcss from "@tailwindcss/vite"
 import { defineConfig } from "vite"
  
 // https://vite.dev/config/
@@ -127,22 +167,31 @@ export default defineConfig({
 })
 ```
 
-
-
+### add shadcn components
 ``` sh
-#
+$ bunx --bun shadcn@latest add checkbox input toggle button label switch select radio-group alert dialog tooltip card popover sonner form table calendar command
+```
 
-# Setup Shadcn-ui
-#$ npx shadcn@latest init
-$ bunx --bun shadcn@latest init
-# add shadcn components
-$ bunx --bun shadcn@latest add checkbox input toggle button label switch select radio-group alert dialog tooltip card popover sonner form table calendar
+### sample for button
+``` tsx
+import { Button } from "@/components/ui/button"
 
+function App() {
+  return (
+    <div className="flex min-h-svh flex-col items-center justify-center">
+      <Button>Click me</Button>
+    </div>
+  )
+}
+
+export default App
+```
 
 
 
 
 # tanstack
+``` sh
 $ bun add @tanstack/react-router @tanstack/query @tanstack/react-table
 #$ npm install @tanstack/router @tanstack/react-query @tanstack/react-table
 ```
