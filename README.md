@@ -187,6 +187,10 @@ function App() {
 export default App
 ```
 
+``` sh
+$ bun add react-hook-form
+```
+
 
 
 
