@@ -1,6 +1,24 @@
 # hbctatweb
 
-Bun Hono Vite React
+# Bun Hono Vite React
+
+
+## instructions
+### Backend
+``` sh
+$ bun run dev
+```
+### Frontend
+``` sh
+$ cd frontend
+$ bun run dev
+```
+
+## Docker Compose (TBD...)
+``` sh
+$ docker compose up -d
+```
+
 
 
 ``` sh
@@ -194,11 +212,133 @@ $ bun add react-hook-form
 
 
 
-# tanstack
+## tanstack router
+### installation
 ``` sh
-$ bun add @tanstack/react-router @tanstack/query @tanstack/react-table
-#$ npm install @tanstack/router @tanstack/react-query @tanstack/react-table
+$ bun add @tanstack/react-router
+$ bun add @tanstack/react-router-devtools
+# install the vite plugin
+$ bun add -D @tanstack/router-plugin
 ```
+### configure vite plugin
+#### edit `vite.config.ts`
+``` js
+// vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { tanstackRouter } from '@tanstack/router-plugin/vite'
+
+export default defineConfig({
+	plugins: [
+		// Please make sure that '@tanstack/router-plugin' is passed before '@vitejs/plugin-react'
+		tanstackRouter({
+			target: 'react',
+			autoCodeSplitting: true,
+		}),
+		react()
+	]
+})
+```
+### create the necessary files
+#### `src/routes/__root.tsx`
+``` tsx
+import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
+import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+
+export const Route = createRootRoute({
+  component: () => (
+    <>
+      <div className="p-2 flex gap-2">
+        <Link to="/" className="[&.active]:font-bold">
+          Home
+        </Link> {' '}
+        <Link to="/about" className="[&.active]:font-bold">
+          About
+        </Link>
+      </div>
+      <hr />
+      <Outlet />
+      <TanStackRouterDevtools />
+    </>
+  )
+})
+```
+#### `src/routes/index.tsx`
+``` tsx
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute("/")({
+  component: Index
+})
+
+function Index() {
+  return (
+    <div className="p-2">
+      <h3>Welcome Home!</h3>
+    </div>
+  )
+}
+```
+#### `src/routes/about.tsx`
+``` tsx
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute("/about")({
+  component: About
+})
+
+function About() {
+  return (
+    <div className="p-2">
+      <h3>About</h3>
+    </div>
+  )
+}
+```
+
+
+
+## tanstack query
+### installation
+``` sh
+$ bun add @tanstack/react-query
+# install the ESLint Plugin Query
+$ bun add -D @tanstack/eslint-plugin-query
+$ bun add @tanstack/react-query-devtools
+```
+
+
+
+
+
+
+
+
+## tanstack table
+### installation
+``` sh
+$ bun add @tanstack/react-table
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 npm install tailwindcss @tailwindcss/cli
