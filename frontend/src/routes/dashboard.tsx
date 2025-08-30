@@ -1,6 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import App from '../App.tsx'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card.tsx'
+
+import { api } from '@/lib/api'
 
 export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
@@ -20,11 +23,31 @@ async function fetchAllExpenses() {
   }
   return response.json()
 }
+// async function fetchTotalSpent2() {
+//   const response = await fetch('/api/expenses/total-spent')
+//   if (!response.ok) {
+//     throw new Error('Network response was not ok')
+//   }
+//   return response.json()
+// }
+async function fetchTotalSpent() { 
+  const response = await api.expenses['total-spent'].$get()
+  const data = await response.json()
+  if (!data) {
+    throw new Error('Network response was not ok')
+  }
+  return data
+}
 
 function RouteComponent() {
   const { isPending, isError, data, error } = useQuery({
     queryKey: ['expenses'],
     queryFn: fetchAllExpenses,
+  })
+
+  const { isPending: isTotalSpentPending, data: dataTotalSpent, isError: isTotalSpentError, error: totalSpentError } = useQuery({
+    queryKey: ['expenses', 'total'],
+    queryFn: fetchTotalSpent,
   })
 
   if (isPending) {
@@ -35,7 +58,26 @@ function RouteComponent() {
     return <span>Error: {error.message}</span>
   }
 
+  if (isTotalSpentPending) {
+    return <span>Loading totalSpent...</span>
+  }
+
+  if (isTotalSpentError) {
+    return <span>Error: {totalSpentError.message}</span>
+  }
+
+  // const formattedTotalSpent = new Intl.NumberFormat('en-PH', {
+  //   style: 'currency',
+  //   currency: 'PHP',
+  // }).format(dataTotalSpent?.totalSpent || 0);
+
+  const formatter = new Intl.NumberFormat('en-PH', {
+    style: 'currency',
+    currency: 'PHP',
+  })
+
   console.log(data)
+  console.log(dataTotalSpent)
 
   return (
     <div className="p-2">
@@ -57,9 +99,28 @@ function RouteComponent() {
       now
       <ul>
         {data?.expenses && Array.isArray(data?.expenses) && data?.expenses.map((expense: Expense) => (
-          <li key={expense.id}>{expense.title} - {expense.amount}</li>
+          <li key={expense.id}>{expense.title} - {formatter.format(expense.amount || 0.00)}</li>
         ))}
       </ul>
+      <hr />
+        <Card>
+          <CardHeader>
+            <CardTitle>Total Expenses</CardTitle>
+            {/* <div className="flex items-center justify-center h-screen bg-gray-100">
+              <div className="p-8 bg-white rounded-lg shadow-md">
+                <h2 className="text-xl font-semibold mb-4">Total Amount:</h2>
+                <p id="moneyAmount" className="text-4xl font-extrabold text-indigo-600"></p>
+              </div>
+            </div> */}
+            <CardDescription>...</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>Total amount spent: {formatter.format(dataTotalSpent?.totalSpent || 0)}</p>
+          </CardContent>
+          <CardFooter>
+            <p>card footer ...</p>
+          </CardFooter>
+        </Card>
       <hr />
       <App />
     </div>

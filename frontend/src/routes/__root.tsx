@@ -11,7 +11,7 @@ const queryClient = new QueryClient()
 export const Route = createRootRoute({
   component: () => (
     <>
-      <div className="p-4 bg-blue-200 md:bg-green-200 lg:bg-blue-200">
+      <div className="p-4 bg-slate-200 md:bg-green-200 lg:bg-slate-200">
         <QueryClientProvider client={queryClient}>
         <div className="p-2 flex gap-2">
           <Link to="/" className="[&.active]:font-bold">

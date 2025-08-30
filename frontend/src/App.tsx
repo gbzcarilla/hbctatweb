@@ -99,26 +99,26 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-const frameworks = [
+const transactionTypes = [
   {
-    value: "next.js",
-    label: "Next.js",
+    value: "booking-air",
+    label: "Booking - Air",
   },
   {
-    value: "sveltekit",
-    label: "SvelteKit",
+    value: "booking-fastcraft",
+    label: "Booking - FastCraft",
   },
   {
-    value: "nuxt.js",
-    label: "Nuxt.js",
+    value: "booking-slowboat",
+    label: "Booking - Slowboat",
   },
   {
-    value: "remix",
-    label: "Remix",
+    value: "rental-van",
+    label: "Rental - Van",
   },
   {
-    value: "astro",
-    label: "Astro",
+    value: "tour-package",
+    label: "Tour Package",
   },
 ]
 
@@ -174,30 +174,30 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div> */}
-      <div className="border-2 border-red-200 bg-blue-200 p-2">
+      <div className="border-2 border-slate-300 bg-slate-200 p-2">
         <h1 className="text-2xl font-bold pt-4 pb-2">HBC Travel and Tours</h1>
         <div className="flex justify-center items-center">
-          <Button className="text-white hover:text-blue-200 bg-blue-600 hover:bg-blue-400" onClick={() => setCount((count) => count - 1)}>
+          <Button className="text-white hover:text-slate-200 bg-slate-600 hover:bg-slate-400" onClick={() => setCount((count) => count - 1)}>
             <ChevronDown className="opacity-50" />
           </Button>
           <p className="mx-6">
             { count } 
           </p>
-          <Button className="text-white hover:text-blue-200 bg-blue-600 hover:bg-blue-400" onClick={() => setCount((count) => count + 1)}>
+          <Button className="text-white hover:text-slate-200 bg-slate-600 hover:bg-slate-400" onClick={() => setCount((count) => count + 1)}>
             <ChevronUp className="opacity-50" />
           </Button>
           
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center p-2 border-1 border-red-200"> {/* min-h-svh */}
+      <div className="flex flex-col items-center justify-center p-2 border-1 border-slate-300"> {/* min-h-svh */}
 
         {/* className="flex min-h-svh flex-col items-center justify-center" */}
         <div>
           <Button>Click me</Button>
         </div>
 
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center bg-slate-200">
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button
@@ -207,31 +207,31 @@ function App() {
                 className="w-[200px] justify-between"
               >
                 {value
-                  ? frameworks.find((framework) => framework.value === value)?.label
-                  : "Select framework..."}
+                  ? transactionTypes.find((transaction) => transaction.value === value)?.label
+                  : "Select transaction..."}
                 <ChevronsUpDown className="opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0">
+            <PopoverContent className="w-[200px] p-0 bg-slate-200">
               <Command>
-                <CommandInput placeholder="Search framework..." className="h-9" />
+                <CommandInput placeholder="Search transaction..." className="h-9" />
                 <CommandList>
-                  <CommandEmpty>No framework found.</CommandEmpty>
+                  <CommandEmpty>No transaction found.</CommandEmpty>
                   <CommandGroup>
-                    {frameworks.map((framework) => (
+                    {transactionTypes.map((transaction) => (
                       <CommandItem
-                        key={framework.value}
-                        value={framework.value}
+                        key={transaction.value}
+                        value={transaction.value}
                         onSelect={(currentValue) => {
                           setValue(currentValue === value ? "" : currentValue)
                           setOpen(false)
                         }}
                       >
-                        {framework.label}
+                        {transaction.label}
                         <Check
                           className={cn(
                             "ml-auto",
-                            value === framework.value ? "opacity-100" : "opacity-0"
+                            value === transaction.value ? "opacity-100" : "opacity-0"
                           )}
                         />
                       </CommandItem>

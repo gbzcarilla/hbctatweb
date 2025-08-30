@@ -23,6 +23,8 @@ const fakeExpenses: Expense[] = [
   { id: 8, title: 'Insurance', amount: 200 },
   { id: 9, title: 'Streaming Services', amount: 30 },
   { id: 10, title: 'Medical', amount: 95 },
+  { id: 11, title: 'Biological', amount: 0 },
+  { id: 12, title: 'Radiological', amount: 500.9 },
 ]
 
 
@@ -30,6 +32,10 @@ const fakeExpenses: Expense[] = [
 export const expensesRoute = new Hono()
   .get("/", c => {
     return c.json({ "expenses": fakeExpenses })
+  })
+  .get("/total-spent", (c) => {
+    const totalSpent = fakeExpenses.reduce((acc, expense) => acc + expense.amount, 0)
+    return c.json({ totalSpent })
   })
   .get("/:id{[0-9]+}", (c) => {
     const id = Number.parseInt(c.req.param("id"))
